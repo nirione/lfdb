@@ -1,0 +1,25 @@
+film_db
+
+-> scan thru given directory and return:
+	- title
+	- year
+	- movie file address
+	- imdb page
+
+-> create db of local films and series
+
+-> db film table: 
+	- id (from imdb?)
+	- title
+	- year
+	- director
+	- genre
+	- length
+	- rating
+	- film/series, if series -> sXepX
+
+-> app abilities:
+	- show films and series
+	- randomize film
+	- randomize episode in a series
+	- rate films/series episodes 
