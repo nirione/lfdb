@@ -1,0 +1,37 @@
+<!--
+	film1 = Film{
+		FilmID: 1,
+		Title: "Once Upon a Time in The West",
+		Year: 1968,
+		Director: Person{
+			FirstName: "Sergio",
+			LastName: "Leone",
+			DOB: "03.01.1929",
+			Occupation: "Director",
+		},
+		Genre: "Western",
+		Rating: 0.9,
+		Series: false,
+	}
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{.Title}} @ LFDB</title>
+    <meta charset="UTF-8">
+  </head>
+  
+  <body>
+      <h1>{{.Title}}</h1>
+      <h2>by {{.Director.FirstName}} {{.Director.LastName}}</h2>
+      <ul>
+          <li>premiered in {{.Year}}</li>
+          <li>{{.Genre}} genre</li>
+          <li>Current rating: {{.Rating}}</li>
+          {{if .Series}}
+          <li>it is a TV series</li>
+          {{end}}
+      </ul>
+  </body>
+</html>
