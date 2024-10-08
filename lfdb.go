@@ -21,6 +21,7 @@ type Film struct {
 	Director	Person
 	Genre		string
 	Rating 		float32
+	Plotpoints	[]string
 	Series		bool
 }
 
@@ -43,6 +44,7 @@ func main() {
 		Director: person1,
 		Genre: "Western",
 		Rating: 0.9,
+		Plotpoints: []string{"harmonica", "widow", "former prostitute", "wild west", "spaghetti western"},
 		Series: false,
 	}
 
