@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
+	//"fmt"
+	//"os"
 	"net/http"
-	"os"
 	"html/template"
 )
 
@@ -54,8 +54,9 @@ func main() {
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	dat, _ := os.ReadFile("./test")
-	fmt.Fprintf(w, string(dat))
+	tpl.ExecuteTemplate(w, "index.html", nil)
+	//dat, _ := os.ReadFile("./test")
+	//fmt.Fprintf(w, string(dat))
 }
 
 func filmHandler(w http.ResponseWriter, r *http.Request) {

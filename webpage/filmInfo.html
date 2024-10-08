@@ -14,24 +14,32 @@
 		Series: false,
 	}
 -->
-
+<!--
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>{{.Title}} @ LFDB</title>
-    <meta charset="UTF-8">
-  </head>
-  
+
   <body>
-      <h1>{{.Title}}</h1>
-      <h2>by {{.Director.FirstName}} {{.Director.LastName}}</h2>
-      <ul>
-          <li>premiered in {{.Year}}</li>
-          <li>{{.Genre}} genre</li>
-          <li>Current rating: {{.Rating}}</li>
-          {{if .Series}}
-          <li>it is a TV series</li>
-          {{end}}
-      </ul>
+-->    
+<!--{{template "Header"}}-->
+
+<head>
+  <title>{{.Title}} @ LFDB</title>
+  <meta charset="UTF-8">
+</head>
+  <h1>{{.Title}}</h1>
+  <h2>by {{.Director.FirstName}} {{.Director.LastName}}</h2>
+
+  <ul>
+    <li>premiered in {{.Year}}</li>
+    <li>{{.Genre}} genre</li>
+    <li>Current rating: {{.Rating}}</li>
+    {{if .Series}}
+    <li>it is a TV series</li>
+    {{end}}
+  </ul>
+
+{{template "Footer"}}
+<!--      
   </body>
 </html>
+-->
