@@ -7,6 +7,13 @@ import (
 	"html/template"
 )
 
+/*
+TODO:
+-> write python code to request info about a film from IMDB thru API
+-> go-python integration
+-> func for: scan given directory, return an array of folder names
+*/
+
 type Person struct {
 	FirstName 	string
 	LastName	string
