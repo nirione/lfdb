@@ -125,16 +125,13 @@ var filmdir string
 func main() {
 	tpl, _ = tpl.ParseGlob("webpage/*.html")
 	apikey = ""
-	filmdir = "K:/Films"
+	filmdir = ""
 	films := directoryReader()
 
-	wf := len(films)-46
+	wf := len(films)-2
 
 	fmt.Println("Wanted film:", films[wf])
-	a := getFilmID(films[wf]) 
-	getFilmData(a)
-	//fmt.Println(b)
-
+	getFilmData(getFilmID(films[wf]) )
 	
 	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/film", filmHandler)
@@ -170,7 +167,9 @@ func getFilmID(searchQuery string) (imdbID string) {// searches for a film and r
 		var searchError SearchError
 		fmt.Println("No results found:")		
 		json.Unmarshal(body, &searchError)
-		fmt.Println(searchError.Error)
+		fmt.Println(searchError.Error)				 //refine search with using year or by manually passing in imdbID
+		fmt.Println("Provide imdbID manually:") 	 //create an option to store not found films and fill the IDs later
+		fmt.Scanln(&imdbID)
 	}
 
 	for _, movie := range searchResults.Search {
@@ -212,13 +211,13 @@ func getFilmData(imdbID string) (filmData FilmData){// requests the json data by
 
 func generateLink(query string, useCase string) (url string) {// gets a film title and returns proper omdb url
 	switch useCase{
-	case "i":		
-		url = "http://www.omdbapi.com/?apikey="+apikey+"&i="+query+"&plot=full"
-	case "s":
-		searchTitle := strings.Replace(strings.ToLower(query), " ", "+", -1)
-		url = "http://www.omdbapi.com/?apikey="+apikey+"&s="+searchTitle
+		case "i":		
+			url = "http://www.omdbapi.com/?apikey="+apikey+"&i="+query+"&plot=full"
+		case "s":
+			searchTitle := strings.Replace(strings.ToLower(query), " ", "+", -1)
+			url = "http://www.omdbapi.com/?apikey="+apikey+"&s="+searchTitle
 	}
-	fmt.Println(url)
+	
 	return
 }
 
