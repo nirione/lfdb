@@ -30,14 +30,13 @@ type Film struct {
     <li>released in {{.Year}} in {{.Country}}</li>
     <li>Genre: {{.Genre}} </li>
     <li>Current rating: {{.Rating}}</li>
-    <li>Plot: {{.Plot}}</li>
-    {{if .Type eq "series"}}
+    {{if eq .Type "series"}}
     <li>it is a TV series</li>
     {{end}}
   </ul>
 
   <h2>Synopsis:</h2>
-  <p>short description of the film taken from IMDB</p>
+  <p>{{.Plot}}</p>
 
   <h2>Similar films:</h2>
   <p>shows up to 3 similar films (based on keywords) locally</p>

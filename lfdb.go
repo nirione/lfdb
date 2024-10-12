@@ -12,6 +12,7 @@ import (
 /*
 TODO:
 ... proper functionality, database integration
+ -> write settings.html to accept input apikey and filmdir (forms)
 */
 
 /*
@@ -20,7 +21,7 @@ type FilmData struct {
 	Year            string `json:"Year"`		
 	Rated           string `json:"Rated"`		
 	Released        string `json:"Released"`	
-	Runtime		string `json:"Runtime"`		
+	Runtime			string `json:"Runtime"`		
 	Genre           string `json:"Genre"`		
 	Director        string `json:"Director"`	
 	Writer          string `json:"Writer"`		
@@ -30,28 +31,44 @@ type FilmData struct {
 	Country         string `json:"Country"`		
 	Awards          string `json:"Awards"`		
 	Poster          string `json:"Poster"`		
-	Ratings  	string `json:"Ratings"`	
-	Metascore	string `json:"Metascore`	
-	ImdbRating	string `json:"imdbRating`	
-	ImdbVotes	string `json:"imdbVotes"`	
-	ImdbID  	string `json:"imdbID"`		
-	Type		string `json:"Type"`		
-	DVD		string `json:"DVD"`			
-	BoxOffice	string `json:"BoxOffice"`	
-	Production	string `json:"Production"`	
-	Website		string `json:"Website"`		
+	Ratings  		string `json:"Ratings"`	
+	Metascore		string `json:"Metascore`	
+	ImdbRating		string `json:"imdbRating`	
+	ImdbVotes		string `json:"imdbVotes"`	
+	ImdbID  		string `json:"imdbID"`		
+	Type			string `json:"Type"`		
+	DVD				string `json:"DVD"`			
+	BoxOffice		string `json:"BoxOffice"`	
+	Production		string `json:"Production"`	
+	Website			string `json:"Website"`		
 	Response        string `json:"Response"`	
 }
 
-{"Title":"Once Upon a Time in the West","Year":"1968","Rated":"PG-13","Released":"04 Jul 1969",
-"Runtime":"166 min","Genre":"Drama, Western","Director":"Sergio Leone","Writer":"Sergio Donati, Sergio Leone, Dario Argento",
+{"Title":"Once Upon a Time in the West",
+"Year":"1968",
+"Rated":"PG-13",
+"Released":"04 Jul 1969",
+"Runtime":"166 min",
+"Genre":"Drama, Western",
+"Director":"Sergio Leone",
+"Writer":"Sergio Donati, Sergio Leone, Dario Argento",
 "Actors":"Henry Fonda, Charles Bronson, Claudia Cardinale",
 "Plot":"A mysterious stranger with a harmonica joins forces with a notorious desperado to protect a beautiful widow from a ruthless assassin working for the railroad.",
-"Language":"Italian, English, Spanish","Country":"Italy, United States","Awards":"6 wins & 5 nominations",
+"Language":"Italian, English, Spanish",
+"Country":"Italy, United States",
+"Awards":"6 wins & 5 nominations",
 "Poster":"https://m.media-amazon.com/images/M/MV5BZjYyNGY1MDEtN2I1MC00MGVhLTljZTYtODQ1NzQ0ODc2NzZlXkEyXkFqcGc@._V1_SX300.jpg",
 "Ratings":[{"Source":"Internet Movie Database","Value":"8.5/10"},{"Source":"Rotten Tomatoes","Value":"96%"},{"Source":"Metacritic","Value":"82/100"}],
-"Metascore":"82","imdbRating":"8.5","imdbVotes":"354,024","imdbID":"tt0064116","Type":"movie","DVD":"N/A","BoxOffice":"$5,321,508",
-"Production":"N/A","Website":"N/A","Response":"True"}
+"Metascore":"82",
+"imdbRating":"8.5",
+"imdbVotes":"354,024",
+"imdbID":"tt0064116",
+"Type":"movie",
+"DVD":"N/A",
+"BoxOffice":"$5,321,508",
+"Production":"N/A",
+"Website":"N/A",
+"Response":"True"}
 */
 
 type Film struct {
@@ -77,6 +94,10 @@ type SearchMovie struct {
 	Year   string `json:"Year"`
 	IMDbID string `json:"imdbID"`
 	Type   string `json:"Type"`
+}
+type SearchError struct {
+	Response	string	`json:"Response"`
+	Error		string 	`json:"Error"`
 }
 
 type FilmData struct {
@@ -104,14 +125,16 @@ var filmdir string
 func main() {
 	tpl, _ = tpl.ParseGlob("webpage/*.html")
 	apikey = ""
-	filmdir = ""
+	filmdir = "K:/Films"
 	films := directoryReader()
 
-	fmt.Println("Films[0]:", films[0])
-	a := getFilmID(films[0]) //
-	fmt.Println("Printing a:", a)
-	b := getFilmData(a)
-	fmt.Println("Printing b:", b)
+	wf := len(films)-46
+
+	fmt.Println("Wanted film:", films[wf])
+	a := getFilmID(films[wf]) 
+	getFilmData(a)
+	//fmt.Println(b)
+
 	
 	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/film", filmHandler)
@@ -144,7 +167,10 @@ func getFilmID(searchQuery string) (imdbID string) {// searches for a film and r
 	}
 
 	if len(searchResults.Search) == 0 {
-		fmt.Println("No results found.")
+		var searchError SearchError
+		fmt.Println("No results found:")		
+		json.Unmarshal(body, &searchError)
+		fmt.Println(searchError.Error)
 	}
 
 	for _, movie := range searchResults.Search {
@@ -153,11 +179,11 @@ func getFilmID(searchQuery string) (imdbID string) {// searches for a film and r
 			break
 		}
 	}
+
 	return
 }
 
-func getFilmData(imdbID string) FilmData{// requests the json data by imdbID, returns Film struct
-	var filmData FilmData
+func getFilmData(imdbID string) (filmData FilmData){// requests the json data by imdbID, returns Film struct
 	useCase := "i"
 	url := generateLink(imdbID, useCase)
 	body := APIreader(url)
@@ -165,9 +191,8 @@ func getFilmData(imdbID string) FilmData{// requests the json data by imdbID, re
 	err := json.Unmarshal(body, &filmData)
 	if err != nil {
 		fmt.Println("Error unmarshalling JSON:", err)
-//		return 
 	}
-	fmt.Println(filmData.Type)
+
 	film = Film{
 		ImdbID: 	filmData.ImdbID,
 		Title:		filmData.Title,
@@ -182,17 +207,13 @@ func getFilmData(imdbID string) FilmData{// requests the json data by imdbID, re
 		Country:	filmData.Country,
 	}
 
-	return filmData
+	return
 }
 
 func generateLink(query string, useCase string) (url string) {// gets a film title and returns proper omdb url
-	// if title: Once Upon a Time in The West:
-	// http://www.omdbapi.com/?apikey=[apikey]&s=once+upon+a+time+in+the+west
-	// if imdbid: 
-	// http://www.omdbapi.com/?apikey=[apikey]&i=tt0064116
 	switch useCase{
 	case "i":		
-		url = "http://www.omdbapi.com/?apikey="+apikey+"&i="+query
+		url = "http://www.omdbapi.com/?apikey="+apikey+"&i="+query+"&plot=full"
 	case "s":
 		searchTitle := strings.Replace(strings.ToLower(query), " ", "+", -1)
 		url = "http://www.omdbapi.com/?apikey="+apikey+"&s="+searchTitle
