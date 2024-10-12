@@ -16,31 +16,31 @@ TODO:
 
 /*
 type FilmData struct {
-	Title       string `json:"Title"` 		tak
-	Year        string `json:"Year"`		tak
-	Rated       string `json:"Rated"`		nie
-	Released    string `json:"Released"`	nie
-	Runtime		string `json:"Runtime"`		tak
-	Genre       string `json:"Genre"`		tak
-	Director    string `json:"Director"`	tak
-	Writer      string `json:"Writer"`		tak
-	Actors      string `json:"Actors"`		tak	
-	Plot        string `json:"Plot"`		tak
-	Language    string `json:"Language"`	nie
-	Country     string `json:"Country"`		tak
-	Awards      string `json:"Awards"`		nie
-	Poster      string `json:"Poster"`		tak
-	Ratings     string `json:"Ratings"`	 	nie
-	Metascore	string `json:"Metascore`	nie
-	ImdbRating	string `json:"imdbRating`	nie
-	ImdbVotes	string `json:"imdbVotes"`	nie
-	ImdbID      string `json:"imdbID"`		nie
-	Type		string `json:"Type"`		tak
-	DVD			string `json:"DVD"`			nie
-	BoxOffice	string `json:"BoxOffice"`	nie
-	Production	string `json:"Production"`	nie
-	Website		string `json:"Website"`		nie
-	Response    string `json:"Response"`	nie
+	Title           string `json:"Title"` 		
+	Year            string `json:"Year"`		
+	Rated           string `json:"Rated"`		
+	Released        string `json:"Released"`	
+	Runtime		string `json:"Runtime"`		
+	Genre           string `json:"Genre"`		
+	Director        string `json:"Director"`	
+	Writer          string `json:"Writer"`		
+	Actors          string `json:"Actors"`		
+	Plot            string `json:"Plot"`		
+	Language        string `json:"Language"`	
+	Country         string `json:"Country"`		
+	Awards          string `json:"Awards"`		
+	Poster          string `json:"Poster"`		
+	Ratings  	string `json:"Ratings"`	
+	Metascore	string `json:"Metascore`	
+	ImdbRating	string `json:"imdbRating`	
+	ImdbVotes	string `json:"imdbVotes"`	
+	ImdbID  	string `json:"imdbID"`		
+	Type		string `json:"Type"`		
+	DVD		string `json:"DVD"`			
+	BoxOffice	string `json:"BoxOffice"`	
+	Production	string `json:"Production"`	
+	Website		string `json:"Website"`		
+	Response        string `json:"Response"`	
 }
 
 {"Title":"Once Upon a Time in the West","Year":"1968","Rated":"PG-13","Released":"04 Jul 1969",
