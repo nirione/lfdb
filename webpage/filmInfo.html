@@ -1,20 +1,21 @@
 <!--
 type Person struct {
 	FirstName 	string
-	LastName	string
-	DOB			string
+	LastName  	string
+	DOB			    string
 	Occupation	string
 }
 
+
 type Film struct {
-	FilmID		int
-	Title		string
-	Year		int
-	Director	Person
-	Genre		string
-	Rating 		float32
-	Plotpoints	[]string
-	Series		bool
+	ImdbID		string
+	Title		  string
+	Year		  string
+	Director	string
+	Genre	  	string
+	Rating		string
+	Plot	  	string
+	Type	  	string
 }
 -->
 <head>
@@ -22,14 +23,15 @@ type Film struct {
   <meta charset="UTF-8">
 </head>
   <h1>{{.Title}}</h1>
-  <h2>by {{.Director.FirstName}} {{.Director.LastName}}</h2>
+  <h2>by {{.Director}}</h2>
 
   <ul>
-    <li>premiered in {{.Year}}</li>
-    <li>{{.Genre}} genre</li>
+    <li>{{.Runtime}}</li>
+    <li>released in {{.Year}} in {{.Country}}</li>
+    <li>Genre: {{.Genre}} </li>
     <li>Current rating: {{.Rating}}</li>
-    <li>Key plotpoints: {{.Plotpoints}}</li>
-    {{if .Series}}
+    <li>Plot: {{.Plot}}</li>
+    {{if .Type eq "series"}}
     <li>it is a TV series</li>
     {{end}}
   </ul>
