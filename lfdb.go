@@ -2,11 +2,13 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"net/http"
 	"html/template"
 	"io/ioutil"
 	"strings"
 	"encoding/json"
+//	"github.com/joho/godotenv"
 )
 
 /*
@@ -95,6 +97,7 @@ type SearchMovie struct {
 	IMDbID string `json:"imdbID"`
 	Type   string `json:"Type"`
 }
+
 type SearchError struct {
 	Response	string	`json:"Response"`
 	Error		string 	`json:"Error"`
@@ -123,9 +126,15 @@ var apikey string
 var filmdir string
 
 func main() {
+//	err := godotenv.Load()
+//	if err != nil {
+//		log.Fatal("Error loading .env file")
+//	  }
+
 	tpl, _ = tpl.ParseGlob("webpage/*.html")
-	apikey = ""
-	filmdir = ""
+	apikey = os.Getenv("OMDB_KEY") 
+	fmt.Println(apikey)
+	filmdir = "/home/oldman/films/"
 	films := directoryReader()
 
 	wf := len(films)-2
